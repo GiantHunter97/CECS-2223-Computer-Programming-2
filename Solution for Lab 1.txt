@@ -1,0 +1,125 @@
+#pragma once
+/*
+* CECS 2223, Computer Programming II Laboratory
+* Fall 2022, Sec. 05
+* Date: August 17, 2022
+* Topic: Lab 1
+* File name: Cylinder.h
+* This file DECLARES a class named Cylinder
+* Name: [YOUR NAME HERE], ID#[YOUR ID NUMBER HERE]
+*/
+
+// This file contains errors, find and correct them!
+
+// write the include statements required
+#include <iostream>
+// write the using declaration
+using namespace std;
+// The Cylinder class has two attributes, height and radius, whose values should be stored
+// in a floating point variable. Declare a default constructor and the setter and getter
+// methods for the field's values. All getter methods MUST be declared as constant. Declare
+// a class method that computes the volume of the cylinder, named getVolume.
+class Cylinder {
+private:
+	// declare the required fields
+	double height;
+	double radius;
+public:
+	// declare the required methods
+	Cylinder();
+	void setHeight(double);
+	void setRadius(double);
+	double getHeight() const;
+	double getRadius() const;
+	double getVolume() const;
+	void printCylinder();
+};
+
+/*
+* CECS 2223, Computer Programming II Laboratory
+* Fall 2022, Sec. 05
+* Date: August 17, 2022
+* Topic: Lab 1
+* File name: Cylinder.cpp
+* This file DEFINES a class named Cylinder
+* Name: [YOUR NAME HERE], ID#[YOUR ID NUMBER HERE]
+*/
+
+// write the required include statement
+#include "Cylinder.h"
+// Define all methods declared in Cylinder.h
+Cylinder::Cylinder() {
+	height = 0;
+	radius = 0;
+}
+
+void Cylinder::setHeight(double aHeight) {
+	height = aHeight;
+}
+
+void Cylinder::setRadius(double aRadius) {
+	radius = aRadius;
+}
+
+double Cylinder::getHeight() const {
+	return height;
+}
+
+double Cylinder::getRadius() const {
+	return radius;
+}
+
+double Cylinder::getVolume() const {
+	return 3.1416 * radius * radius * height;
+}
+// The printCylinder method prints the object's field values
+// and the volume in a table-ready format
+// Use printf to set 10 spaces per column and a floating point
+// precision of 3 digits.
+// This method DOES NOT print the table's header.
+void Cylinder::printCylinder(){
+	printf("%10.3f%10.3f%10.3f\n",getRadius(),getHeight(),getVolume());
+}
+
+/*
+* CECS 2223, Computer Programming II Laboratory
+* Fall 2022, Sec. 05
+* Date: August 17, 2022
+* Topic: Lab 1
+* File name: lab01.cpp
+* This file IMPLEMENTS a class named Cylinder
+* Name: [YOUR NAME HERE], ID#[YOUR ID NUMBER HERE]
+*/
+
+// write the required include statement
+#include "Cylinder.h"
+int main(){
+	// declare a Cylinder object named cyl1
+	Cylinder cyl1; // invokes the default constructor
+	// assign a radius of 5.25 and a height of 10.5 to cyl1
+	cyl1.setRadius(5.25);
+	cyl1.setHeight(10.5);
+	// declare a Cylinder object named cyl2
+	Cylinder cyl2;
+	// assign a radius of 15.75 and a height of 5.25 to cyl2
+	cyl2.setRadius(15.75);
+	cyl2.setHeight(5.25);
+	// using printf, print the header for a table that will show
+	// all values for the objects. The header fields are "RADIUS",
+	// "HEIGHT", and "VOLUME", and each phrase is to be aligned to
+	// the left of a 10-space column.
+	printf("%-10s%-10s%-10s\n","RADIUS","HEIGHT","VOLUME");
+	// call the object's print method to print the values
+	cyl1.printCylinder();
+	cyl2.printCylinder();
+	cout << endl;
+	// write a statement which prints the phrase
+	// "Program developed by [YOUR NAME], ID#[YOUR ID NUMBER]"
+	// where the square brackets and the text within is substituted 
+	// with your personal information.
+	cout << "Program developed by Prof. de la Cruz, ID#123456789\n";
+	cout << endl;
+	system("pause"); // For Visual Studio only!
+	return 0;
+}
+

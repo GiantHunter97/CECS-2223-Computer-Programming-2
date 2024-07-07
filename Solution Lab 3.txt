@@ -1,0 +1,249 @@
+
+
+/*
+* CECS 2223, Computer Programming II Lab
+* Fall 2022, Sec. 05
+* Date: August 31, 2022
+* Topic: Lab 3 - Private Methods and Class Variables
+* File name: Cars.h
+* This file DECLARES a class named Cars
+*/
+#include <iostream>
+using namespace std;
+
+class Cars{
+private:
+	static int count; // The quantity of Cars objects created
+	static size_t brandLength; // the length of the brand field
+	static size_t modelLength; // the length of the model field
+	string brand; // the car's brand name
+	string model; // the car's model name
+	int number; // the car's number
+	string serialNumber; // the car's serial number
+	string setSerialNumber(); // private method to create the serial number
+	void setBrandLength(); // private method to set the length of the brand field
+	void setModelLength(); // private method to set the length of the model field
+	string uppercase(string);
+	string setCount(int) const;
+	int getNumber() const; // get the number value
+public:
+	Cars(); // the default constructor
+	Cars(string, string); // parameterized constructor
+	void setBrand(string); // set the car's brand
+	void setModel(string); // set the car's model
+	string getBrandName() const; // gets the car's brand name
+	string getModelName() const; // gets the car's model name
+	string getSerialNumber() const; // gets the car's serial number
+	size_t getBrandLength() const; // gets the brand field's length
+	size_t getModelLength() const; // gets the model field's length
+	void printCar() const; // prints the car's information
+};
+
+/*
+* CECS 2223, Computer Programming II Lab
+* Fall 2022, Sec. 05
+* Date: August 31, 2022
+* Topic: Lab 3 - Private Methods and Class Variables
+* File name: Cars.cpp
+* This file DEFINES a class named Cars
+* Complete the code as required
+* Prof. de la Cruz
+*/
+
+/* A SOLUTION TO THIS EXERCISE WAS DISCUSSED DURING THE SEPTEMBER 7 COURSE MEETING*/
+
+// write the required include statement
+#include "Cars.h"
+#include <string>
+// initialize the class variables to 0
+int Cars::count = 0; // The quantity of Cars objects created
+size_t Cars::brandLength = 0; // the length of the brand field
+size_t Cars::modelLength = 0; // the length of the model field
+// Define the constructors. Each constructor adds 1 to the
+// count class variable. The parameterized constructor calls
+// the setSerialNumber method.
+
+// The default constructor
+Cars::Cars() {
+	brand = "";
+	model = "";
+	serialNumber = "";
+	number = ++count;
+}
+
+// The parameterized constructor
+Cars::Cars(string aBrand, string aModel) {
+	brand = aBrand;
+	setBrandLength();
+	model = aModel;
+	setModelLength();
+	number = ++count;
+	serialNumber = setSerialNumber();
+}
+
+// The setSerialNumber method creates the serial number for the car.
+// The serial number is made up of the first three letters of the 
+// brand plus the first three letters of the model plus three numbers
+// from the count. For example, for a Toyota Yaris with count 1 the
+// serial number would be TOYYAR001
+string Cars::setSerialNumber() {
+	return uppercase(brand.substr(0, 3) + model.substr(0, 3)) + setCount(getNumber());
+}
+
+// The uppercase method is a private method used to convert characters into their
+// uppercase representation
+string Cars::uppercase(string str) {
+	for (size_t i = 0; i < str.size(); i++)
+		str[i] = toupper(str[i]);
+	return str;
+}
+
+// The setCount method converts the count value into a 3 character string
+string Cars::setCount(int aCount) const {
+	if (aCount < 10)
+		return "00" + to_string(aCount);
+	else if (aCount < 100)
+		return "0" + to_string(aCount);
+	else
+		return to_string(aCount);
+}
+
+int Cars::getNumber() const {
+	return number;
+}
+// The setBrandLength and setModelLength methods determine the size of 
+// the corresponding field. The size of each field in the longest string 
+// plus 3 spaces.
+void Cars::setBrandLength() {
+	if (brand.size() + 3 > brandLength)
+		brandLength = brand.size() + 3;
+}
+
+void Cars::setModelLength() {
+	if (model.size() + 3 > modelLength)
+		modelLength = model.size() + 3;
+}
+
+// Define the setters and getters. 
+// The setters for brand and model will call the field length methods.
+void Cars::setBrand(string aBrand) {
+	brand = aBrand;
+	setBrandLength();
+	if (serialNumber.empty() && !model.empty())
+		serialNumber = setSerialNumber();
+}
+
+void Cars::setModel(string aModel) {
+	model = aModel;
+	setModelLength();
+	if (serialNumber.empty() && !brand.empty())
+		serialNumber = setSerialNumber();
+}
+
+string Cars::getBrandName() const {
+	return brand;
+}
+
+string Cars::getModelName() const {
+	return model;
+}
+
+string Cars::getSerialNumber() const {
+	return serialNumber;
+}
+
+size_t Cars::getBrandLength() const {
+	return brandLength;
+}
+
+size_t Cars::getModelLength() const {
+	return modelLength;
+}
+// The printCar method prints the data for a car in a 
+// table ready format. The data to be printed is brand,
+// model, and serial number. The information must be 
+// printed in a single line, make sure to add the line 
+// termination instruction.
+// This method DOES NOT print the table header
+void Cars::printCar() const {
+	printf("%-*s%-*s%-s\n", getBrandLength(), getBrandName().c_str(), getModelLength(), model.c_str(), getSerialNumber().c_str());
+}
+
+/*
+* CECS 2223, Computer Programming II Lab
+* Fall 2022, Sec. 05
+* Date: August 31, 2022
+* Topic: Lab 3 - Private Methods and Class Variables
+* File name: FA-22_lab03.cpp
+* This file IMPLEMENTS a class named Cars
+* Complete the code as required
+* YOUR NAME HERE, YOUR ID NUMBER HERE
+*/
+
+/* A SOLUTION TO THIS EXERCISE WAS DISCUSSED DURING THE SEPTEMBER 7 COURSE MEETING*/
+
+// write the required include statement
+#include "Cars.h"
+#include <string>
+string getBrand(); // method prototype
+string getModel(); // method prototype
+
+int main(){
+	// Declare 4 Cars objects, car1, car2, car3, and car4.
+	Cars car1, car2, car3, car4;
+	// call the getBrand and getModel method to assign values
+	// to all Cars objects
+	car1.setBrand(getBrand());
+	car1.setModel(getModel());
+	cout << endl;
+	car2.setBrand(getBrand());
+	car2.setModel(getModel());
+	cout << endl;
+	car3.setBrand(getBrand());
+	car3.setModel(getModel());
+	cout << endl;
+	car4.setBrand(getBrand());
+	car4.setModel(getModel());
+	// Print the following table header:
+	// "BRAND", "MODEL", "SERIAL NUMBER"
+	// Remember to use the correct field size values
+	printf("\n%-*s%-*s%-s\n", car1.getBrandLength(), "BRAND", car2.getModelLength(), "MODEL", "SERIAL NUMBER");
+	// Call the print method for each Cars object to complete the table
+	car1.printCar();
+	car2.printCar();
+	car3.printCar();
+	car4.printCar();
+	cout << endl;
+	// write a statement which prints the phrase
+	// "Program developed by [YOUR NAME], ID#[YOUR ID NUMBER]"
+	// where the square brackets and the text within is substituted 
+	// with your personal information.
+	cout << "Program developed by Prof. de la Cruz, ID#123456789\n";
+	cout << endl;
+	system("pause"); // For Visual Studio use only!
+	return 0;
+}
+// METHOD DEFINITION AREA
+
+// The getBrand method has no parameters and returns a string.
+// It prompts the user for a brand name using the phrase
+// "Enter the car's brand name: ", stores the value in a local
+// variable named brand, and returns the stored value.
+string getBrand() {
+	string str = "";
+	cout << "Enter the car's brand name: ";
+	getline(cin, str);
+	return str;
+}
+
+// The getModel method has no parameters and returns a string.
+// It prompts the user for a model name using the phrase
+// "Enter the car's model name: ", stores the value in a local
+// variable named model, and returns the stored value.
+string getModel() {
+	string str = "";
+	cout << "Enter the car's model name: ";
+	getline(cin, str);
+	return str;
+}
+

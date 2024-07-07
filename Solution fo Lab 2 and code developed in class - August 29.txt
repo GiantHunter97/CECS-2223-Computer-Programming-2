@@ -1,0 +1,221 @@
+
+
+#pragma once
+/*
+* CECS 2223, Computer Programming II Laboratory
+* Fall 2022, Sec. 05
+* Date: August 24, 2022
+* Topic: Lab 2 - Parameterized constructors
+* File name: Courses.h
+* This file DECLARES a class named Courses 
+*/
+#include <iostream>
+using namespace std;
+class Courses{
+private:
+	string code;
+	string name;
+	int credits;
+	// adding class variables for code and name field sizes
+	static size_t codeLength;
+	static size_t nameLength;
+	// private methods to set code and name length class variables
+	void setCodeLength();
+	void setNameLength();
+public:
+	Courses();
+	Courses(string);
+	Courses(string, string);
+	Courses(string, string, int);
+	void setCode(string);
+	void setName(string);
+	void setCredits(int);
+	string getCode() const;
+	string getName() const;
+	int getCredits() const;
+	void printCourse();
+	size_t getCodeLength() const;
+	size_t getNameLength() const;
+};
+
+/*
+* CECS 2223, Computer Programming II Laboratory
+* Fall 2022, Sec. 05
+* Date: August 24, 2022
+* Topic: Lab 2 - Parameterized constructors
+* File name: Courses.cpp
+* This file DEFINES the class named Courses 
+* Complete the code as required.
+*/
+#include "Courses.h"
+// initialize the class variables
+size_t Courses::codeLength = 0;
+size_t Courses::nameLength = 0;
+// Defines the constructors and class methods
+Courses::Courses() {
+	code = "";
+	name = "";
+	credits = -1;
+}
+
+Courses::Courses(string aCode) {
+	code = aCode;
+	// call the setCodeLength method
+	setCodeLength();
+	name = "";
+	credits = -1;
+}
+
+Courses::Courses(string aCode, string aName) {
+	code = aCode;
+	setCodeLength();
+	name = aName;
+	setNameLength();
+	credits = -1;
+}
+
+Courses::Courses(string aCode, string aName, int aCredit) {
+	code = aCode;
+	setCodeLength();
+	name = aName;
+	setNameLength();
+	credits = aCredit;
+}
+
+void Courses::setCode(string aCode) {
+	code = aCode;
+	setCodeLength();
+}
+
+void Courses::setName(string aName) {
+	name = aName;
+	setNameLength();
+}
+
+void Courses::setCredits(int aCredit) {
+	credits = aCredit;
+}
+
+string Courses::getCode() const {
+	return code;
+}
+
+string Courses::getName() const {
+	return name;
+}
+
+int Courses::getCredits() const {
+	return credits;
+}
+
+// The printCourse method print the data for a course
+// in a table ready format. The data to be printed is
+// course code, course name, and credits. The information
+// must be printed in a single line, make sure to add
+// the line termination instruction.
+// This method DOES NOT print the table header
+// code field - 10 spaces
+// name field - 35 spaces
+// credits field - no size
+//void Courses::printCourse() {
+//	printf("%-10s%-35s%i\n", getCode().c_str(), getName().c_str(), getCredits());
+//}
+void Courses::printCourse() {
+	if (getCodeLength() != 0 && getNameLength() != 0)
+		printf("%-*s%-*s%i\n", getCodeLength(), getCode().c_str(), getNameLength(), getName().c_str(), getCredits());
+	else
+		printf("DATA NOT AVAILABLE\n");
+}
+
+// define the field length methods
+void Courses::setCodeLength() {
+	// lets add 2 space at the end
+	if (code.size() + 2 > codeLength)
+		codeLength = code.size() + 2;
+}
+
+void Courses::setNameLength() {
+	// lets add 2 space at the end
+	if (name.size() + 2 > nameLength)
+		nameLength = name.size() + 2;
+}
+
+size_t Courses::getCodeLength() const {
+	return codeLength;
+}
+
+size_t Courses::getNameLength() const {
+	return nameLength;
+}
+
+/*
+* CECS 2223, Computer Programming II Laboratory
+* Fall 2022, Sec. 05
+* Date: August 24, 2022
+* Topic: Lab 2 - Parameterized constructors
+* File name: lab02.cpp
+* This file IMPLEMENTS a class named Courses 
+* Complete the code as required.
+*/
+#include "Courses.h"
+int main(){
+	// declare Calculus I 
+	Courses calc1("MATH 1350", "Calculus I", 4);
+	printf("%-*s%-*s%s\n", calc1.getCodeLength(), "CODE", calc1.getNameLength(), "NAME", "CREDITS");
+	calc1.printCourse();
+	cout << endl;
+	// declare a Courses object named compe1 using the one
+	// parameter constructor, and CECS 2202 as argument.
+	// Then use the appropriate methods to assign Computer 
+	// Programming I to the name, and 4 for the credits.	
+	Courses compe1("CECS 2202"); // calling the 1-parameter constructor
+	compe1.setName("Computer Programming I");
+	compe1.setCredits(4);
+	printf("%-*s%-*s%s\n", compe1.getCodeLength(), "CODE", compe1.getNameLength(), "NAME", "CREDITS");
+	compe1.printCourse();
+	cout << endl;
+	// declare a Courses object named compe0 using the 
+	// default constructor. Then use the appropriate methods
+	// to assign Computer Programming Fundamentals to the name,
+	// CECS 2200 as the code, and 1 for the credits.
+	Courses compe0; // calling the default constructor
+	compe0.setCode("CECS 2200");
+	compe0.setName("Computer Programming Fundamentals");
+	compe0.setCredits(1);
+	printf("%-*s%-*s%s\n", compe0.getCodeLength(), "CODE", compe0.getNameLength(), "NAME", "CREDITS");
+	compe0.printCourse();
+	cout << endl;
+	// declare a Courses object named compe1lab using the two
+	// parameter constructor, and CECS 2203 and Computer 
+	// Programming I Laboratory as arguments. Then use the 
+	// appropriate methods to assign 0 for the credits.	
+	Courses compe1lab("CECS 2203","Computer Programming I Laboratory");
+	compe1lab.setCredits(0);
+	printf("%-*s%-*s%s\n", compe1lab.getCodeLength(), "CODE", compe1lab.getNameLength(), "NAME", "CREDITS");
+	compe1lab.printCourse();
+	cout << endl;
+	// declare a Courses object named compe2 using the three
+	// parameter constructor, and CECS 222 and Computer 
+	// Programming II, and 4 as arguments.
+	Courses compe2("CECS 2222", "Computer Programming II", 4);
+	// Write the header for the table using the following strings:
+	// CODE, NAME, CREDITS
+	printf("%-*s%-*s%s\n", compe0.getCodeLength(),"CODE", compe1.getNameLength(),"NAME", "CREDITS");
+	// call the print method from each of the objects to print each 
+	// course's information.
+	calc1.printCourse();
+	compe0.printCourse();
+	compe1.printCourse();
+	compe1lab.printCourse();
+	compe2.printCourse();
+	cout << endl;
+	// write a statement which prints the phrase
+	// "Program developed by [YOUR NAME], ID#[YOUR ID NUMBER]"
+	// where the square brackets and the text within is substituted 
+	// with your personal information.
+	cout << "Program developed by Prof. de la Cruz, ID#123456789\n";
+	cout << endl;
+	system("pause"); // For Visual Studio use only
+	return 0;
+}
+
